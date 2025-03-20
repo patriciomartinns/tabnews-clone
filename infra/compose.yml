@@ -3,7 +3,6 @@ services:
     container_name: "tabnews_db"
     restart: always
     image: "postgres:16.0-alpine3.18"
+    env_file: "../.env.development"
     ports:
       - "5432:5432"
-    environment:
-      POSTGRES_PASSWORD: "local-password"
