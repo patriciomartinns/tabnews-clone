@@ -4,7 +4,7 @@
   "description": "Implementação do tabnews.com.br para o curso.dev",
   "main": "index.js",
   "scripts": {
-    "dev": "next dev",
+    "dev": "npm run services:up && next dev",
     "test": "jest",
     "test:watch": "jest --watchAll",
     "services:up": "docker compose -f infra/compose.yml up -d",
