@@ -1,7 +1,7 @@
 import { Client } from "pg";
 
 function getEnvState() {
-  return process.env.NODE_ENV !== "production" ? false : true;
+  return process.env.NODE_ENV === "development" ? false : true;
 }
 
 async function query(queryObject) {
