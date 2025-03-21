@@ -4,7 +4,7 @@ function getEnvState() {
   return process.env.NODE_ENV === "production" ? true : false;
 }
 
-async function query(queryObject) {
+async function getClient() {
   const client = new Client({
     host: process.env.POSTGRES_HOST,
     port: process.env.POSTGRES_PORT,
@@ -14,8 +14,16 @@ async function query(queryObject) {
     ssl: getEnvState(),
   });
 
+  await client.connect();
+
+  return client;
+}
+
+async function query(queryObject) {
+  let client;
+
   try {
-    await client.connect();
+    client = await getClient();
     return await client.query(queryObject);
   } catch (error) {
     console.error(error);
@@ -27,6 +35,7 @@ async function query(queryObject) {
 
 const database = {
   query,
+  getClient,
 };
 
 export default database;
