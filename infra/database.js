@@ -18,7 +18,8 @@ async function query(queryObject) {
     await client.connect();
     return await client.query(queryObject);
   } catch (error) {
-    console.error("Error executing query", error);
+    console.error(error);
+    throw error;
   } finally {
     await client.end();
   }
