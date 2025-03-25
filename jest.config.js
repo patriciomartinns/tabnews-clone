@@ -12,6 +12,7 @@ const createJestConfig = nextJest({
 /** @type {import('jest').Config} */
 const config = createJestConfig({
   moduleDirectories: ["node_modules", "<rootDir>"],
+  testTimeout: 60000,
 });
 
 module.exports = config;
