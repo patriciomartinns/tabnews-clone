@@ -5,12 +5,17 @@ async function waitForAllServices() {
     async function featchStatusPage() {
       const response = await fetch("http://localhost:3000/api/v1/status");
 
-      await response.json();
+      if (!response.ok) {
+        throw new Error("Status page is not available yet");
+      }
     }
 
     return retry(featchStatusPage, {
       retries: 100,
       maxTimeout: 1000,
+      onRetry: (e, attempt) => {
+        console.error(`Attempt ${attempt} failed: ${e.message}`);
+      },
     });
   }
 
