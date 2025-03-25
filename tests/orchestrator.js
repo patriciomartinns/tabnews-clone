@@ -8,7 +8,10 @@ async function waitForAllServices() {
       await response.json();
     }
 
-    return retry(featchStatusPage, { retries: 100 });
+    return retry(featchStatusPage, {
+      retries: 100,
+      maxTimeout: 1000,
+    });
   }
 
   await webForWebServer();
