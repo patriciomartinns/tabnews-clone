@@ -12,8 +12,8 @@
     "services:down": "docker compose --env-file .env.development -f infra/compose.yml down",
     "migration:create": "node-pg-migrate -m infra/migrations create",
     "migration:up": "node-pg-migrate -m infra/migrations --envPath .env.development up",
-    "lint:check": "prettier --check .",
-    "lint:fix": "prettier --write .",
+    "lint:prettier:check": "prettier --check .",
+    "lint:prettier:fix": "prettier --write .",
     "wait-for-postgres": "node infra/scripts/wait-for-postgres.js"
   },
   "keywords": [],
