@@ -22,6 +22,8 @@ async function waitForAllServices() {
   await webForWebServer();
 }
 
-export default {
+const orchestrator = {
   waitForAllServices,
 };
+
+export default orchestrator;
