@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "npm run services:up && npm run services:wait:database && npm run migration:up && next dev",
-    "test": "npm run services:up && npx concurrently -c \"#93c5fd,#fb7185\" \"next dev\" \"jest --runInBand\" --names=next,jest --hide next -k -s command-jest",
+    "test": "npm run services:up && npx concurrently -c \"#93c5fd,#fb7185\" \"next dev\" \"jest --runInBand --verbose\" --names=next,jest --hide next -k -s command-jest",
     "posttest": "npm run services:stop",
-    "test:watch": "jest --watchAll --runInBand",
+    "test:watch": "jest --watchAll --runInBand --verbose",
     "services:up": "docker compose --env-file .env.development -f infra/compose.yml up -d",
     "services:stop": "docker compose --env-file .env.development -f infra/compose.yml stop",
     "services:down": "docker compose --env-file .env.development -f infra/compose.yml down",
