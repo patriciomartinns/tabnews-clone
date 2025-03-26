@@ -1,4 +1,4 @@
-import database from "@/infra/database";
+import database from "infra/database";
 import retry from "async-retry";
 
 async function waitForAllServices() {
