@@ -16,7 +16,7 @@ export default async function status(_, response) {
       database: {
         version: databaseVersion.rows[0].server_version,
         max_connections: parseInt(
-          databaseMaxConnections.rows[0].max_connections
+          databaseMaxConnections.rows[0].max_connections,
         ),
         opened_connections: databaseCurrentConnectionsCount,
       },
