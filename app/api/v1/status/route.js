@@ -1,7 +1,7 @@
 import database from "infra/database";
 import { InternalServerError } from "infra/errors";
 
-export default async function status(_, response) {
+export async function GET() {
   try {
     const databaseVersion = await database.query("SHOW server_version;");
     const databaseMaxConnections = await database.query(
@@ -14,7 +14,7 @@ export default async function status(_, response) {
     const databaseCurrentConnectionsCount =
       databaseCurrentConnections.rows[0].count;
 
-    response.status(200).json({
+    return Response.json({
       dependencies: {
         updated_at: new Date().toISOString(),
         database: {
@@ -30,7 +30,6 @@ export default async function status(_, response) {
     const publicErrorObject = new InternalServerError({
       cause: error,
     });
-    console.error(publicErrorObject);
-    return response.status(500).json(publicErrorObject);
+    return Response.json(publicErrorObject);
   }
 }
