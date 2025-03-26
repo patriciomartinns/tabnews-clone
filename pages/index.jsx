@@ -22,10 +22,12 @@ const styles = {
     flexDirection: "column",
     alignItems: "center",
     gap: "1rem",
+    padding: "1rem",
   },
   title: {
     fontSize: "24px",
     fontWeight: "bold",
+    textAlign: "center",
   },
   description: {
     fontSize: "16px",
