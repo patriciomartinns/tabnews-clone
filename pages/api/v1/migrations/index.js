@@ -1,32 +1,58 @@
+import { createRouter } from "next-connect";
 import database from "infra/database";
 import migrationRunner from "node-pg-migrate";
 import { resolve } from "node:path";
+import controller from "infra/controller";
 
-export default async function migrations(request, response) {
-  const allowedMethods = ["GET", "POST"];
-  if (!allowedMethods.includes(request.method)) {
-    return response.status(405).json({
-      error: `Method ${request.method} Not Allowed`,
+const router = createRouter();
+
+router.get(getHandler);
+router.post(postHandler);
+
+const migrationsRunnerOptions = {
+  dryRun: true,
+  dir: resolve("infra", "migrations"),
+  direction: "up",
+  migrationsTable: "pgmigrations",
+  verbose: true,
+};
+
+async function getHandler(_, response) {
+  let dbClient;
+  try {
+    dbClient = await database.getClient();
+
+    const pendingMigrations = await migrationRunner({
+      ...migrationsRunnerOptions,
+      dbClient,
     });
-  }
 
-  const dbClient = await database.getClient();
-
-  const migrations = await migrationRunner({
-    dbClient,
-    dryRun: request.method === "GET",
-    dir: resolve("infra", "migrations"),
-    direction: "up",
-    migrationsTable: "pgmigrations",
-    verbose: true,
-  });
-
-  if (request.method === "POST" && migrations.length > 0) {
+    return response.status(200).json(pendingMigrations);
+  } finally {
     await dbClient.end();
-    return response.status(201).json(migrations);
   }
-
-  await dbClient.end();
-
-  return response.status(200).json(migrations);
 }
+
+async function postHandler(_, response) {
+  let dbClient;
+
+  try {
+    dbClient = await database.getClient();
+
+    const migratedMigrations = await migrationRunner({
+      ...migrationsRunnerOptions,
+      dbClient,
+      dryRun: false,
+    });
+
+    if (migratedMigrations.length > 0) {
+      return response.status(201).json(migratedMigrations);
+    }
+
+    return response.status(200).json(migratedMigrations);
+  } finally {
+    await dbClient.end();
+  }
+}
+
+export default router.handler(controller.errorHandlers);
