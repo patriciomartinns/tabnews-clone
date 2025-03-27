@@ -7,7 +7,7 @@ const migrationsRunnerOptions = {
   dir: resolve("infra", "migrations"),
   direction: "up",
   migrationsTable: "pgmigrations",
-  verbose: true,
+  log: () => {},
 };
 
 async function getPendingMigrations() {
