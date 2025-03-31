@@ -28,8 +28,10 @@ async function create(userInputValues) {
 
     if (result.rowCount > 0) {
       throw new ValidationError({
-        message: "O Nome de Usuário informado já está sendo utilizado.",
-        action: "Utilize outro Nome de Usuário para realizar o cadastro.",
+        message:
+          "O Nome de Usuário(username) informado já está sendo utilizado.",
+        action:
+          "Utilize outro Nome de Usuário(username) para realizar o cadastro.",
       });
     }
   }

@@ -108,8 +108,10 @@ describe("POST /api/v1/users", () => {
 
       expect(response2.status).toBe(400);
       expect(responseBody).toEqual({
-        message: "O Nome de Usuário informado já está sendo utilizado.",
-        action: "Utilize outro Nome de Usuário para realizar o cadastro.",
+        message:
+          "O Nome de Usuário(username) informado já está sendo utilizado.",
+        action:
+          "Utilize outro Nome de Usuário(username) para realizar o cadastro.",
         name: "ValidationError",
         status_code: 400,
       });
